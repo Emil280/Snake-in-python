@@ -8,7 +8,7 @@ pygame.display.set_caption("Snake")
 APPLE_IMAGE = pygame.image.load(os.path.join('Assets','apple.png'))
 APPLE_IMAGE = pygame.transform.scale(APPLE_IMAGE, (40,40))
 GREEN=(46, 204, 14)
-This is the final test maybe if it works. yes
+This is the final test maybe if it works. yes (I can see this code so it work :)
 DARKGREEN=(32,135,11)
 
 FPS=60
