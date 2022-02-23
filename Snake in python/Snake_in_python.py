@@ -19,14 +19,14 @@ def draw_window():  #Makes a 20x20 board with 50x50 pixel squares
         for Column in range(20):
             if Row % 2 == 0:
                 if Column % 2 == 0:
-                    pygame.draw.rect(Win,GREEN,(Row_place,Column_place,50,50))
+                    pygame.draw.rect(Win,GREEN,(Row_place,Column_place,40,40))
                 else:
-                    pygame.draw.rect(Win,DARKGREEN,(Row_place,Column_place,50,50))
+                    pygame.draw.rect(Win,DARKGREEN,(Row_place,Column_place,40,40))
             else:
                 if Column % 2 == 0:
-                    pygame.draw.rect(Win,DARKGREEN,(Row_place,Column_place,50,50)) 
+                    pygame.draw.rect(Win,DARKGREEN,(Row_place,Column_place,40,40)) 
                 else:
-                    pygame.draw.rect(Win,GREEN,(Row_place,Column_place,50,50))
+                    pygame.draw.rect(Win,GREEN,(Row_place,Column_place,40,40))
             Row_place += 40
         Column_place += 40
     pygame.display.update()
@@ -36,7 +36,7 @@ def draw_window():  #Makes a 20x20 board with 50x50 pixel squares
 def place_random_apples():
     Row = random.randint(0,20)*40
     Column = random.randint(0,20)*40
-    Win.blit(APPLE_IMAGE,(Row,Column-1))
+    Win.blit(APPLE_IMAGE,(Row-1,Column))
     pygame.display.update()
 
 def main():
