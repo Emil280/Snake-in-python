@@ -2,9 +2,12 @@ import pygame
 import random
 import os
 
+
+FPS=60
 WIDTH, HEIGHT = 800, 800
 Win= pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Snake")
+
 APPLE_IMAGE = pygame.image.load(os.path.join('Assets','apple.png'))
 APPLE_IMAGE = pygame.transform.scale(APPLE_IMAGE, (40,40))
 HEAD_UP = pygame.image.load(os.path.join('Assets','head_up.png'))
@@ -21,13 +24,12 @@ TAIL_UP = pygame.image.load(os.path.join('Assets','tail_up.png'))
 TAIL_DOWN = pygame.image.load(os.path.join('Assets','tail_down.png'))
 TAIL_RIGHT = pygame.image.load(os.path.join('Assets','tail_right.png'))
 TAIL_LEFT = pygame.image.load(os.path.join('Assets','tail_left.png'))
-GREEN=(46, 204, 14)
-DARKGREEN=(32,135,11)
 
-FPS=60
 
 def draw_window():  #Makes a 20x20 board with 50x50 pixel squares
     Column_place = 0
+    GREEN=(46, 204, 14)
+    DARKGREEN=(32,135,11)
     for Row in range(20):
         Row_place = 0
         for Column in range(20):
