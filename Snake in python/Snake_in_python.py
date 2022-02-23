@@ -7,7 +7,6 @@ Win= pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Snake")
 APPLE_IMAGE = pygame.image.load(os.path.join('Assets','apple.png'))
 APPLE_IMAGE = pygame.transform.scale(APPLE_IMAGE, (40,40))
-
 GREEN=(46, 204, 14)
 DARKGREEN=(32,135,11)
 
