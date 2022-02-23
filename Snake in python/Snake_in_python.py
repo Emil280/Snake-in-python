@@ -36,7 +36,7 @@ def draw_window():  #Makes a 20x20 board with 50x50 pixel squares
 def place_random_apples():
     Row = random.randint(0,20)*40
     Column = random.randint(0,20)*40
-    Win.blit(APPLE_IMAGE,(Row+1,Column+1))
+    Win.blit(APPLE_IMAGE,(Row,Column-1))
     pygame.display.update()
 
 def main():
