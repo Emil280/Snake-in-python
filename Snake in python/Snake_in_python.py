@@ -144,7 +144,7 @@ def main():
                 check_eat_apple = main_game.eat_apple()
                 check_die = main_game.check_die()
                 if check_die:
-                    print('ok this die thing works i expand later')
+                    pygame.quit()
                 if check_eat_apple:
                     score = score + 1
                     print(f'score:{score}')
