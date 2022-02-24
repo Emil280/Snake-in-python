@@ -10,9 +10,6 @@ WIDTH, HEIGHT = 800, 800
 Win= pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Snake")
 
-WHITE=255,255,255
-BLACK=0,0,0
-
 APPLE_IMAGE = pygame.image.load(os.path.join('Assets','apple.png'))
 APPLE_IMAGE = pygame.transform.scale(APPLE_IMAGE, (40,40))
 HEAD_UP = pygame.image.load(os.path.join('Assets','head_up.png'))
@@ -140,11 +137,6 @@ def main():
     score = 0
     Start = False
     Die = False
-    font=pygame.font.Font('freesanasbold.ttf', 32)
-    text=font.render('Press Space to Start', True, WHITE, BLACK)
-    textRect=text.get_rect()
-    text.Rect.center=(800//2, 800//2)
-    display_surface.blit(text,textRect)
     Display_message('Press Space To Start')
     pygame.display.update()
     while run:
