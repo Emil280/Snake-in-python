@@ -113,7 +113,16 @@ class MAIN():
             die = True
         return die
 
-
+def Display_message(text):
+    pygame.font.init()
+    White = (255,255,255)
+    Grey = (169,169,169)
+    font = pygame.font.Font('freesansbold.ttf', 60)
+    Text = font.render(text, True, White)
+    Shadow = font.render(text, True, Grey)
+    Win.blit(Shadow, (120,202))
+    Win.blit(Text, (118,200))
+    pygame.display.update()
 
 main_game = MAIN()
 snake = SNAKE()
@@ -125,10 +134,11 @@ def main():
     run=True
     main_game.print_assets()
     snake.draw()
-    pygame.display.update()
     score = 0
     Start = False
     Die = False
+    Display_message('Press Space To Start')
+    pygame.display.update()
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
