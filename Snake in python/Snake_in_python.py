@@ -124,6 +124,7 @@ def main():
     run=True
     main_game.print_assets()
     score = 0
+    Die=False
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -138,13 +139,13 @@ def main():
                     main_game.snake.direction = Vector2(-1,0)
                 if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     main_game.snake.direction = Vector2(1,0)
-            if event.type == SCREEN_UPDATE:          #every SPEED ms the snake will move 
+            if event.type == SCREEN_UPDATE and note Die:          #every SPEED ms the snake will move 
                 main_game.update_assets()
                 main_game.update_snake()
                 check_eat_apple = main_game.eat_apple()
                 check_die = main_game.check_die()
                 if check_die:
-                    pygame.quit()
+                    Die=True
                 if check_eat_apple:
                     score = score + 1
                     print(f'score:{score}')
