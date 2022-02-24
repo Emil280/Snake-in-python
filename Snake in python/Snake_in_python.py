@@ -42,16 +42,17 @@ class SNAKE:
             pygame.draw.rect(Win,(100,100,100),block_rect)
 
     def move(self):
-        body_copy = self.body[:-1]
-        body_copy.insert(0,body_copy[0]+self.direction)
-        self.body=body_copy[:]
+        body_copy = self.body[:-1]   #copies the list self.body besides the last element
+        body_copy.insert(0,body_copy[0]+self.direction) #adds the direction vector to the head in the copy
+        self.body=body_copy[:]      #saves the copy to the main body of the snake
 
 class FRUIT():
-    
-    def place_random_apple(self):
+    def __init__(self):
         x_pos = random.randint(0,19)
         y_pos = random.randint(0,19)
         self.fruit_position = Vector2(x_pos,y_pos)
+    
+    def place_random_apple(self):
         fruit_rect = pygame.Rect(int(self.fruit_position.x*40),int(self.fruit_position.y*40),40,40)
         Win.blit(APPLE_IMAGE,fruit_rect)
     
@@ -79,24 +80,38 @@ class MAIN():
     def __init__(self):
         self.snake = SNAKE()
         self.fruit = FRUIT()     #joining both classes togather into the main class
-        self.cheak_eat_apple = False
+        self.check_eat_apple = False
     def update_snake(self):
         self.snake.move()
         self.snake.draw()
 
 
-    def print_assets(self):
+    def print_assets(self):              #prints the board and chooses the first place for the apple
         self.fruit.draw_window()
         self.fruit.place_random_apple()
 
-    def eat_apple(self):
-        print (self.snake.body[0])
-        if self.fruit.fruit_position == self.snake.body[0]:
-            self.fruit.place_random_apple()
-            self.cheak_eat_apple = True
+    def update_assets(self):
+        self.fruit.draw_window()
+        if self.check_eat_apple:  #if apple has been eaten it randomly chooses new coordinates
+            self.fruit.x_pos = random.randint(0,19)
+            self.fruit.y_pos = random.randint(0,19)
+            self.fruit.fruit_position = Vector2(self.fruit.x_pos,self.fruit.y_pos)
         else:
-            self.cheak_eat_apple = False
-        return self.cheak_eat_apple
+         self.fruit.place_random_apple()
+
+    def eat_apple(self):
+        if self.fruit.fruit_position == self.snake.body[0]:  #if coordinate of head and apple the same it do the thingy
+            self.fruit.place_random_apple()
+            self.check_eat_apple = True
+        else:
+            self.check_eat_apple = False
+        return self.check_eat_apple
+
+    def check_die(self):
+        die = False
+        if self.snake.body[0].x not in range (0,20) or self.snake.body[0].y not in range (0,20):
+            die = True
+        return die
 
 
 
@@ -124,12 +139,17 @@ def main():
                 if event.key == pygame.K_d:
                     main_game.snake.direction = Vector2(1,0)
             if event.type == SCREEN_UPDATE:          #every SPEED ms the snake will move 
+                main_game.update_assets()
                 main_game.update_snake()
-        pygame.display.update()
-        cheak_eat_apple = main_game.eat_apple()
-        if cheak_eat_apple:
-            score = score + 1
-            print(score)
+                check_eat_apple = main_game.eat_apple()
+                check_die = main_game.check_die()
+                if check_die:
+                    print('ok this die thing works i expand later')
+                if check_eat_apple:
+                    score = score + 1
+                    print(f'score:{score}')
+                pygame.display.update()
+        
     pygame.quit()
 
 if __name__ == "__main__":
