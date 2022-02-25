@@ -11,7 +11,6 @@ Win= pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Snake")
 
 APPLE_IMAGE = pygame.image.load(os.path.join('Assets','apple.png'))
-APPLE_IMAGE = pygame.transform.scale(APPLE_IMAGE, (40,40))
 HEAD_UP = pygame.image.load(os.path.join('Assets','head_up.png'))
 HEAD_DOWN = pygame.image.load(os.path.join('Assets','head_down.png'))
 HEAD_LEFT = pygame.image.load(os.path.join('Assets','head_left.png'))
@@ -33,6 +32,7 @@ class SNAKE:
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(6,10),Vector2(7,10)]  #starting position
         self.direction = Vector2(1,0)
+        self.expand = False
 
     def draw(self):
         for block in self.body:
@@ -42,9 +42,18 @@ class SNAKE:
             pygame.draw.rect(Win,(100,100,100),block_rect)
 
     def move(self):
-        body_copy = self.body[:-1]   #copies the list self.body besides the last element
-        body_copy.insert(0,body_copy[0]+self.direction) #adds the direction vector to the head in the copy
-        self.body=body_copy[:]      #saves the copy to the main body of the snake
+        if self.expand == True:
+            body_copy = self.body[:]   #copies the snakebody
+            body_copy.insert(0,body_copy[0]+self.direction) #adds an extra block
+            self.body=body_copy[:] #saves the new snake body
+            self.expand=False #stops extending the snake
+        else:
+            body_copy = self.body[:-1]   #copies the list self.body besides the last element
+            body_copy.insert(0,body_copy[0]+self.direction) #adds the direction vector to the head in the copy
+            self.body=body_copy[:]      #saves the copy to the main body of the snake
+        
+    def extend_body(self):
+        self.expand = True
 
 class FRUIT():
     def __init__(self):
@@ -103,6 +112,7 @@ class MAIN():
         if self.fruit.fruit_position == self.snake.body[0]:  #if coordinate of head and apple the same it do the thingy
             self.fruit.place_random_apple()
             self.check_eat_apple = True
+            self.snake.extend_body()
         else:
             self.check_eat_apple = False
         return self.check_eat_apple
@@ -112,6 +122,7 @@ class MAIN():
         if self.snake.body[0].x not in range (0,20) or self.snake.body[0].y not in range (0,20):
             die = True
         return die
+
 
 def Display_message(text):
     pygame.font.init()
