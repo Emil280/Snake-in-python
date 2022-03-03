@@ -5,7 +5,7 @@ import random
 import os
 
 FPS = 144   #for best performance on high refreshrate monitor xD
-SPEED = 100 #the lower the speed the faster the snake 
+SPEED = 90 #the lower the speed the faster the snake 
 WIDTH, HEIGHT = 800, 800
 Win= pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Snake")
@@ -136,10 +136,10 @@ class MAIN():
         self.snake = SNAKE()
         self.fruit = FRUIT()     #joining both classes togather into the main class
         self.check_eat_apple = False
+
     def update_snake(self):
         self.snake.move()
         self.snake.draw()
-
 
     def print_assets(self):              #prints the board and chooses the first place for the apple
         self.fruit.draw_window()
