@@ -11,35 +11,58 @@ Win= pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Snake")
 
 APPLE_IMAGE = pygame.image.load(os.path.join('Assets','apple.png'))
-HEAD_UP = pygame.image.load(os.path.join('Assets','head_up.png'))
-HEAD_DOWN = pygame.image.load(os.path.join('Assets','head_down.png'))
-HEAD_LEFT = pygame.image.load(os.path.join('Assets','head_left.png'))
-HEAD_RIGHT = pygame.image.load(os.path.join('Assets','head_right.png'))
-BODY_LEFT_DOWN = pygame.image.load(os.path.join('Assets','body_bottomleft.png'))
-BODY_LEFT_UP = pygame.image.load(os.path.join('Assets','body_topleft.png'))
-BODY_RIGHT_DOWN = pygame.image.load(os.path.join('Assets','body_bottomright.png'))
-BODY_RIGHT_UP = pygame.image.load(os.path.join('Assets','body_topright.png'))
-BODY_VERTICAL = pygame.image.load(os.path.join('Assets','body_vertical.png'))
-BODY_HORIZONTAL = pygame.image.load(os.path.join('Assets','body_horizontal.png'))
-TAIL_UP = pygame.image.load(os.path.join('Assets','tail_up.png'))
-TAIL_DOWN = pygame.image.load(os.path.join('Assets','tail_down.png'))
-TAIL_RIGHT = pygame.image.load(os.path.join('Assets','tail_right.png'))
-TAIL_LEFT = pygame.image.load(os.path.join('Assets','tail_left.png'))
+
 
 
 
 class SNAKE:
     def __init__(self):
-        self.body = [Vector2(5,10),Vector2(6,10),Vector2(7,10)]  #starting position
+        self.body = [Vector2(7,10),Vector2(6,10),Vector2(5,10)]  #starting position
         self.direction = Vector2(1,0)
         self.expand = False
+        self.HEAD_UP = pygame.image.load(os.path.join('Assets','head_up.png'))
+        self.HEAD_DOWN = pygame.image.load(os.path.join('Assets','head_down.png'))
+        self.HEAD_LEFT = pygame.image.load(os.path.join('Assets','head_left.png'))
+        self.HEAD_RIGHT = pygame.image.load(os.path.join('Assets','head_right.png'))
+        self.BODY_LEFT_UP = pygame.image.load(os.path.join('Assets','body_bottomleft.png'))
+        self.BODY_LEFT_DOWN = pygame.image.load(os.path.join('Assets','body_topleft.png'))
+        self.BODY_RIGHT_UP = pygame.image.load(os.path.join('Assets','body_bottomright.png'))
+        self.BODY_RIGHT_DOWN = pygame.image.load(os.path.join('Assets','body_topright.png'))
+        self.BODY_VERTICAL = pygame.image.load(os.path.join('Assets','body_vertical.png'))
+        self.BODY_HORIZONTAL = pygame.image.load(os.path.join('Assets','body_horizontal.png'))
+        self.TAIL_UP = pygame.image.load(os.path.join('Assets','tail_up.png'))
+        self.TAIL_DOWN = pygame.image.load(os.path.join('Assets','tail_down.png'))
+        self.TAIL_RIGHT = pygame.image.load(os.path.join('Assets','tail_right.png'))
+        self.TAIL_LEFT = pygame.image.load(os.path.join('Assets','tail_left.png'))
 
     def draw(self):
-        for block in self.body:
-            x_position = int(block.x * 40)
-            y_position = int(block.y * 40)
-            block_rect = pygame.Rect(x_position, y_position,40,40)
-            pygame.draw.rect(Win,(100,100,100),block_rect)
+        self.head_pos()
+        self.tail_pos()
+        for index,block in enumerate(self.body):
+            x_pos=int(block.x*40)
+            y_pos=int(block.y*40)
+            block_rect=pygame.Rect(x_pos,y_pos,40,40)
+            if index==0:
+                Win.blit(self.head,block_rect)
+            elif index==len(self.body)-1:
+                Win.blit(self.tail,block_rect)
+            else:
+                previous_block=self.body[index+1]-block #index is the current element of the body
+                next_block=self.body[index-1]-block
+                if previous_block.x==next_block.x:
+                    Win.blit(self.BODY_VERTICAL,block_rect)
+                elif previous_block.y==next_block.y:
+                    Win.blit(self.BODY_HORIZONTAL,block_rect)
+                else:
+                    if previous_block.x==-1 and next_block.y == -1 or previous_block.y==-1 and next_block.x == -1:
+                        Win.blit(self.BODY_RIGHT_UP,block_rect)
+                    elif previous_block.x==-1 and next_block.y==1 or previous_block.y==1 and next_block.x==-1:
+                        Win.blit(self.BODY_RIGHT_DOWN,block_rect)
+                    elif previous_block.x==1 and next_block.y==-1 or previous_block.y==-1 and next_block.x==1:
+                        Win.blit(self.BODY_LEFT_UP,block_rect)
+                    elif previous_block.x==1 and next_block.y==1 or previous_block.y==1 and next_block.x ==1:
+                        Win.blit(self.BODY_LEFT_DOWN,block_rect)
+
 
     def move(self):
         if self.expand == True:
@@ -52,6 +75,29 @@ class SNAKE:
             body_copy.insert(0,body_copy[0]+self.direction) #adds the direction vector to the head in the copy
             self.body=body_copy[:]      #saves the copy to the main body of the snake
         
+    def head_pos(self):
+        relative_pos= self.body[1] - self.body[0] #subtracts first vector from second vector in body to get the position of the head relative to the rest of the body
+        if relative_pos==Vector2(1,0):
+            self.head=self.HEAD_LEFT
+        elif relative_pos==Vector2(-1,0):
+            self.head=self.HEAD_RIGHT
+        elif relative_pos==Vector2(0,1):
+            self.head=self.HEAD_UP
+        elif relative_pos==Vector2(0,-1):
+            self.head=self.HEAD_DOWN
+
+    def tail_pos(self):
+        relative_pos= self.body[-2] - self.body[-1]
+        if relative_pos==Vector2(1,0):
+            self.tail=self.TAIL_LEFT
+        elif relative_pos==Vector2(-1,0):
+            self.tail=self.TAIL_RIGHT
+        elif relative_pos==Vector2(0,1):
+            self.tail=self.TAIL_UP
+        elif relative_pos==Vector2(0,-1):
+            self.tail=self.TAIL_DOWN
+
+
     def extend_body(self):
         self.expand = True
 
