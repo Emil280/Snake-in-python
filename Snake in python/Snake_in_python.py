@@ -203,13 +203,17 @@ def main():
                 run=False
             if event.type == pygame.KEYDOWN:         #change direction vector dependant on key pressed
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
-                    main_game.snake.direction = Vector2(0,-1)
+                    if main_game.snake.direction != Vector2(0,1):
+                        main_game.snake.direction = Vector2(0,-1)
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                    main_game.snake.direction = Vector2(0,1)
+                    if main_game.snake.direction != Vector2(0,-1):
+                        main_game.snake.direction = Vector2(0,1)
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                    main_game.snake.direction = Vector2(-1,0)
+                    if main_game.snake.direction != Vector2(1,0):
+                        main_game.snake.direction = Vector2(-1,0)
                 if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                    main_game.snake.direction = Vector2(1,0)
+                    if main_game.snake.direction != Vector2(-1,0):
+                        main_game.snake.direction = Vector2(1,0)
                 if event.key == pygame.K_SPACE:
                     Start = True
             if event.type == SCREEN_UPDATE and not Die and Start:          #every SPEED ms the snake will move 
