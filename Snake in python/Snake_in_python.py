@@ -97,7 +97,6 @@ class SNAKE:
         elif relative_pos==Vector2(0,-1):
             self.tail=self.TAIL_DOWN
 
-
     def extend_body(self):
         self.expand = True
 
@@ -163,6 +162,11 @@ class MAIN():
             self.check_eat_apple = False
         return self.check_eat_apple
 
+    def snake_collsion_check(self):
+        for x in range(1,len(self.snake.body)):
+            if self.snake.body[0]==self.snake.body[x]:
+                return True
+
     def check_die(self):
         die = False
         if self.snake.body[0].x not in range (0,20) or self.snake.body[0].y not in range (0,20):
@@ -219,6 +223,7 @@ def main():
             if event.type == SCREEN_UPDATE and not Die and Start:          #every SPEED ms the snake will move 
                 main_game.update_assets()
                 main_game.update_snake()
+                Die=main_game.snake_collsion_check()
                 check_eat_apple = main_game.eat_apple()
                 check_die = main_game.check_die()
                 if check_die:
