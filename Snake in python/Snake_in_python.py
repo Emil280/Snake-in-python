@@ -102,12 +102,14 @@ class SNAKE:
 
 class FRUIT():
     def __init__(self):
-        x_pos = random.randint(0,19)
-        y_pos = random.randint(0,19)
+        x_pos = 12
+        y_pos = 10
         self.fruit_position = Vector2(x_pos,y_pos)
+
     
     def place_random_apple(self):
         fruit_rect = pygame.Rect(int(self.fruit_position.x*40),int(self.fruit_position.y*40),40,40)
+        fruit_vector= Vector2(self.fruit_position.x,self.fruit_position.y)
         Win.blit(APPLE_IMAGE,fruit_rect)
     
     def draw_window(self):  #Makes a 20x20 board with 50x50 pixel squares
@@ -146,10 +148,25 @@ class MAIN():
 
     def update_assets(self):
         self.fruit.draw_window()
+        Collision=False
         if self.check_eat_apple:  #if apple has been eaten it randomly chooses new coordinates
             self.fruit.x_pos = random.randint(0,19)
             self.fruit.y_pos = random.randint(0,19)
             self.fruit.fruit_position = Vector2(self.fruit.x_pos,self.fruit.y_pos)
+            for x in range(1,len(self.snake.body[:])):
+                if self.fruit.fruit_position==self.snake.body[x]:
+                    Collision=True
+            while Collision==True:
+                self.fruit.x_pos = random.randint(0,19)
+                self.fruit.y_pos = random.randint(0,19)
+                C=0
+                for i in range(1,len(self.snake.body[:])):
+                    if self.fruit.fruit_position==self.snake.body[x]:
+                        C=C+1
+                if C==0:
+                    Collision=False
+                elif C>0:
+                    Collision=True
         else:
          self.fruit.place_random_apple()
 
@@ -173,6 +190,11 @@ class MAIN():
             die = True
         return die
 
+    def death_screen(self):
+        movie= pygame.movie.Movie(r'C:\Users\emil2\source\repos\Snake-in-python\Snake in python\Assets\death.avi')
+        Death_screen=pygame.Surace(800,800).convert()
+        Win.set_display(movie)
+        Death_video.play()
 
 def Display_message(text):
     pygame.font.init()
