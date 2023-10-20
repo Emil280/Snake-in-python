@@ -190,12 +190,6 @@ class MAIN():
             die = True
         return die
 
-    def death_screen(self):
-        movie= pygame.movie.Movie(r'C:\Users\emil2\source\repos\Snake-in-python\Snake in python\Assets\death.avi')
-        Death_screen=pygame.Surace(800,800).convert()
-        Win.set_display(movie)
-        Death_video.play()
-
 def Display_message(text):
     pygame.font.init()
     White = (255,255,255)
